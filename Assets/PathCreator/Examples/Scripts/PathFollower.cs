@@ -21,14 +21,26 @@ namespace PathCreation.Examples
 
         void Update()
         {
-            if (Input.GetMouseButton(0))
+            if(UiGameManager.Instance.isGameWin == false && UiGameManager.Instance.isGameOver == false)
             {
-                if (pathCreator != null)
+                if (Input.GetMouseButton(0))
                 {
-                    distanceTravelled += speed * Time.deltaTime;
-                    transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
-                    transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
+                    if (pathCreator != null)
+                    {
+                        distanceTravelled += speed * Time.deltaTime;
+                        transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
+                        transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
+                    }
                 }
+            }
+
+            if (UiGameManager.Instance.isGameWin == true)
+            {
+                distanceTravelled += speed * Time.deltaTime;
+                transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
+                transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
+
+                speed = 5;
             }
         }
 

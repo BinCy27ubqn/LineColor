@@ -1,15 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance;
 
-    public bool isGameWin;
-    public bool isGameOver;
+    public float distanceValue;
+    public float currentDistance = 0;
 
-    void Awake()
+    public Slider levelSlider;
+
+    public bool levelCompleted = false;
+
+    private void Awake()
     {
         if(Instance == null)
         {
@@ -17,9 +22,20 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    private void Start()
+    {
+        Application.targetFrameRate = 60;
+
+        levelSlider.maxValue = distanceValue;
+        levelSlider.minValue = 0;
+    }
+
     void Update()
     {
-        
+        if (Input.GetMouseButton(0) || (levelCompleted == false && UiGameManager.Instance.isGameWin == true))
+        {
+            currentDistance += Time.deltaTime;
+            levelSlider.value = currentDistance;
+        }
     }
 }
