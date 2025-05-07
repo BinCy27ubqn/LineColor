@@ -13,7 +13,7 @@ public class CameraFollowPlayer : MonoBehaviour
 
         if (UiGameManager.Instance.isGameWin)
         {
-            transform.Rotate(0, 0, 2 * Time.deltaTime);
+            transform.Rotate(0, 0, 8 * Time.deltaTime);
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class UiGameManager : MonoBehaviour
@@ -12,12 +13,22 @@ public class UiGameManager : MonoBehaviour
 
     public bool isGameWin;
     public bool isGameOver;
+
+    private float coinCollect = 0;
+    public Text coinCollectionText;
+
+    public GameObject animationCoinCollect;
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
         }
+    }
+
+    private void Start()
+    {
+        
     }
 
     private void Update()
@@ -35,12 +46,19 @@ public class UiGameManager : MonoBehaviour
     public void GameComplete()
     {
         gameCompletePanelUi.SetActive(true);
+        StartCoroutine(CoinCollection());
     }
 
     public void GameOver()
     {
         
         gameOverPanelUi.SetActive(true);
+    }
+
+    public void Claim()
+    {
+        animationCoinCollect.SetActive(true);
+        Invoke("LoadScene",2f);
     }
 
     public void LoadScene()
@@ -59,6 +77,16 @@ public class UiGameManager : MonoBehaviour
         else if (isGameOver)
         {
             GameOver();
+        }
+    }
+
+    public IEnumerator CoinCollection()
+    {
+        while(coinCollect < 50)
+        { 
+            coinCollect++;
+            coinCollectionText.text = "<b>+" + coinCollect.ToString() + "</b>";
+            yield return new WaitForSeconds(0.2f);
         }
     }
 }

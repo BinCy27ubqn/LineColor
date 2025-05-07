@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace PathCreation.Examples
 {
@@ -11,6 +12,7 @@ namespace PathCreation.Examples
         public float speed = 5;
         float distanceTravelled;
 
+        public GameObject particlePlayerMove;
         void Start() {
             if (pathCreator != null)
             {
@@ -30,9 +32,23 @@ namespace PathCreation.Examples
                         distanceTravelled += speed * Time.deltaTime;
                         transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
                         transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
+
+                        if (particlePlayerMove.active == false)
+                        {
+                            particlePlayerMove.SetActive(true);    
+                        }
                     }
                 }
             }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                if (particlePlayerMove.active)
+                {
+                    StartCoroutine(deplayTime());
+                }
+            }
+
 
             if (UiGameManager.Instance.isGameWin == true)
             {
@@ -49,5 +65,13 @@ namespace PathCreation.Examples
         void OnPathChanged() {
             distanceTravelled = pathCreator.path.GetClosestDistanceAlongPath(transform.position);
         }
+
+        public IEnumerator deplayTime()
+        {
+            yield return new WaitForSeconds(0.1f);
+            particlePlayerMove.SetActive(false);
+        }
     }
+
+   
 }
